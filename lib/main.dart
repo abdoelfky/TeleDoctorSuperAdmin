@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,7 +11,8 @@ import 'modules/home_screen.dart';
 Future<void> main() async {
   // بيتأكد ان كل حاجه هنا في الميثود خلصت و بعدين يتفح الابلكيشن
   WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp();
+
+  await Firebase.initializeApp();
   await CacheHelper.init();
   Widget widget;
   bool onBoarding =false;

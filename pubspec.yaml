@@ -44,12 +44,12 @@ dependencies:
   shared_preferences:
 
   #FIREBASE
-#  firebase_core:
-#  firebase_auth:
-#  cloud_firestore:
-#  firebase_storage:
-#  firestore_search:
-#  firebase_messaging:
+  firebase_core:
+  firebase_auth:
+  cloud_firestore:
+  firebase_storage:
+  firestore_search:
+  firebase_messaging:
 
 dev_dependencies:
   flutter_test:
