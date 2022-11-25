@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:teledoctor/cubit/app_cubit.dart';
-import 'package:teledoctor/modules/login_screen.dart';
 import 'package:teledoctor/modules/onBoarding_screen.dart';
 import 'package:teledoctor/shared/network/shared_preference.dart';
 import 'modules/home_screen.dart';
