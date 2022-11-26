@@ -66,27 +66,32 @@ class HomeScreen extends StatelessWidget {
               onRefresh: ()async=>cubit.getUsers(),
               child: SingleChildScrollView(
                 scrollDirection:Axis.vertical ,
-                physics:BouncingScrollPhysics(),
+                physics:const BouncingScrollPhysics(),
                 child: Padding(
                   padding: EdgeInsets.symmetric(
                       vertical:size.height*0.05 ,
                       horizontal:size.width*.05 ),
-                  child: GridView.builder(
-                    shrinkWrap:true,
-                    physics: const BouncingScrollPhysics(),
-                    itemCount:cubit.admins2.length ,
-                    itemBuilder:(context,index)
-                    {
-                      return myCard(context,cubit.admins2[index]);
-                    },
-                    gridDelegate:SliverGridDelegateWithMaxCrossAxisExtent(
-                        maxCrossAxisExtent: 300,
-                        childAspectRatio: 3/5,
-                        crossAxisSpacing: size.width*.03,
-                        mainAxisSpacing: size.height*.02
+                  child: Column(
+                    children: [
+                      GridView.builder(
+                        shrinkWrap:true,
+                        physics: const BouncingScrollPhysics(),
+                        itemCount:cubit.admins2.length ,
+                        itemBuilder:(context,index)
+                        {
+                          return myCard(context,cubit.admins2[index]);
+                        },
+                        gridDelegate:SliverGridDelegateWithMaxCrossAxisExtent(
+                            maxCrossAxisExtent: 300,
+                            childAspectRatio: 3/5,
+                            crossAxisSpacing: size.width*.03,
+                            mainAxisSpacing: size.height*.02
 
-                    ),
+                        ),
 
+                      ),
+                      SizedBox(height: size.height,)
+                    ],
                   ),
                 ),
               ),
