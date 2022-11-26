@@ -1,18 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:restart_app/restart_app.dart';
 import 'package:teledoctor/cubit/app_cubit.dart';
 import 'package:teledoctor/cubit/app_state.dart';
-import 'package:teledoctor/main.dart';
 import 'package:teledoctor/models/admin_model.dart';
-import 'package:teledoctor/modules/splash_screen.dart';
 import 'package:teledoctor/modules/update_user_screen.dart';
 import 'package:teledoctor/shared/component/components.dart';
-
 import '../shared/constants/constants.dart';
 import 'add_admin_screen.dart';
-import 'login/login_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -20,7 +15,6 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size=MediaQuery.of(context).size;
-    bool inProgress=false;
 
     return BlocConsumer<AppCubit,AppState>(
       listener:(context,state){} ,
@@ -68,26 +62,33 @@ class HomeScreen extends StatelessWidget {
                 )]
 
             ),
-            body:Padding(
-              padding: EdgeInsets.symmetric(
-                  vertical:size.height*0.05 ,
-                  horizontal:size.width*.05 ),
-              child: GridView.builder(
+            body:RefreshIndicator(
+              onRefresh: ()async=>cubit.getUsers(),
+              child: SingleChildScrollView(
+                scrollDirection:Axis.vertical ,
+                physics:BouncingScrollPhysics(),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      vertical:size.height*0.05 ,
+                      horizontal:size.width*.05 ),
+                  child: GridView.builder(
+                    shrinkWrap:true,
+                    physics: const BouncingScrollPhysics(),
+                    itemCount:cubit.admins2.length ,
+                    itemBuilder:(context,index)
+                    {
+                      return myCard(context,cubit.admins2[index]);
+                    },
+                    gridDelegate:SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent: 300,
+                        childAspectRatio: 3/5,
+                        crossAxisSpacing: size.width*.03,
+                        mainAxisSpacing: size.height*.02
 
-                physics: const BouncingScrollPhysics(),
-                itemCount:cubit.admins2.length ,
-                itemBuilder:(context,index)
-                {
-                  return myCard(context,cubit.admins2[index]);
-                },
-                gridDelegate:SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: 300,
-                    childAspectRatio: 3/5,
-                    crossAxisSpacing: size.width*.03,
-                    mainAxisSpacing: size.height*.02
+                    ),
 
+                  ),
                 ),
-
               ),
             ),
             floatingActionButton: Container(
