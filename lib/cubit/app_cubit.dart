@@ -1,8 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:teledoctor/modules/login/login_screen.dart';
+import 'package:teledoctor/modules/onBoarding_screen.dart';
 import 'package:teledoctor/shared/constants/constants.dart';
 import '../models/admin_model.dart';
 import '../shared/component/components.dart';
@@ -86,8 +88,7 @@ class AppCubit extends Cubit<AppState> {
         .then((value) {
       value.docs.forEach((element)
       {
-        print('/*-+-*/*-+-*/-+*/-+-*/');
-        print(uId);
+
         if(element.data()['uId']!=uId){
           admins.add(AdminModel.fromJson(element.data()));
         }
@@ -164,6 +165,12 @@ class AppCubit extends Cubit<AppState> {
   }
 
 
+void logOut(context,widget)
+{
+  CacheHelper.removeData(
+      key: 'uId');
+
+}
 
   bool isObsecured=true;
 

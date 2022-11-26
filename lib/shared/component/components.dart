@@ -7,7 +7,7 @@ import '../constants/constants.dart';
 void navigateAndEnd(context,widget)=>
     Navigator.pushReplacement(
     context,
-    MaterialPageRoute(builder: (context)=>widget,),
+    MaterialPageRoute(builder: (BuildContext context)=>widget,),
         result: (Route<dynamic> route)=>false,
 
     );
@@ -146,7 +146,7 @@ Widget myDivider() => Padding(
 
 myAppBar({
   required String appBarText,
-  List<Widget>? icon
+  List<Widget>? icon,
 })=>AppBar(
   actions:icon,
   backgroundColor:primaryColor ,

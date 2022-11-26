@@ -56,7 +56,7 @@ class LoginScreen extends StatelessWidget {
         var cubit=LoginCubit.get(context);
 
         return Scaffold(
-          appBar: myAppBar(appBarText: 'Log in'),
+          appBar: myAppBar(appBarText: 'Log in',),
           body: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             child: Padding(
