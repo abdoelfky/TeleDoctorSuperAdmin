@@ -74,8 +74,8 @@ class UpdateAdminScreen extends StatelessWidget {
             adminNameController.text =admin.name!;
             adminIdController.text =admin.id!;
             adminPasswordController.text =admin.password!;
-            hospitalNameController.text =admin.hospitalLocation!;
-            hospitalLocationController.text =admin.hospitalName!;
+            hospitalNameController.text =admin.hospitalName!;
+            hospitalLocationController.text =admin.hospitalLocation!;
             adminPhoneController.text =admin.phone!;
 
           }

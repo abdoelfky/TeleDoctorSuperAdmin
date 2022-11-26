@@ -55,8 +55,7 @@ class MyApp extends StatelessWidget {
       child:MaterialApp(
             theme: ThemeData(
             textTheme: GoogleFonts.lailaTextTheme(
-
-            Theme.of(context).textTheme,
+              Theme.of(context).textTheme,
         ),),
           debugShowCheckedModeBanner: false,
           home:startWidget,
