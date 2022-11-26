@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:teledoctor/modules/login/login_screen.dart';
+import 'package:teledoctor/shared/constants/constants.dart';
 import '../models/admin_model.dart';
 import '../shared/component/components.dart';
 import '../shared/network/shared_preference.dart';
@@ -21,6 +22,7 @@ class AppCubit extends Cubit<AppState> {
     required String id,
     required String hospitalLocation,
     required String hospitalName,
+
 
   }) {
     emit(AddNewAdminRegisterLoadingState());
@@ -60,6 +62,7 @@ class AppCubit extends Cubit<AppState> {
       hospitalLocation:hospitalLocation,
       hospitalName:hospitalName,
       password:password,
+      type: 'admin'
     );
     FirebaseFirestore.instance
         .collection('admins')
@@ -83,8 +86,11 @@ class AppCubit extends Cubit<AppState> {
         .then((value) {
       value.docs.forEach((element)
       {
-        // if(element.data()['uId']!=admins.uId)
-        admins.add(AdminModel.fromJson(element.data()));
+        print('/*-+-*/*-+-*/-+*/-+-*/');
+        print(uId);
+        if(element.data()['uId']!=uId){
+          admins.add(AdminModel.fromJson(element.data()));
+        }
         print(admins);
       });
       emit(GetAdminsSuccessState());
@@ -115,7 +121,9 @@ class AppCubit extends Cubit<AppState> {
       hospitalLocation:hospitalLocation ,
       hospitalName:hospitalName ,
       password: password,
-      uId: uId
+      uId: uId,
+      type: 'admin'
+
 
     );
 

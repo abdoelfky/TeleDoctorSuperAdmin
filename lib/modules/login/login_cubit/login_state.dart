@@ -1,3 +1,5 @@
+import 'package:teledoctor/modules/login/login_cubit/login_cubit.dart';
+
 abstract class LoginStates {}
 
 class LoginInitialState extends LoginStates {}
@@ -22,3 +24,10 @@ class LoginErrorState extends LoginStates
 }
 
 class ChangePasswordVisibilityState extends LoginStates {}
+
+
+class GetAdminsLoadingState extends LoginStates{}
+
+class GetAdminsSuccessState extends LoginStates{}
+
+class GetAdminsErrorState extends LoginStates{}

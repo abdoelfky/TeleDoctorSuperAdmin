@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:teledoctor/shared/constants/constants.dart';
 import 'package:teledoctor/shared/network/shared_preference.dart';
 
+import '../../../models/admin_model.dart';
 import 'login_state.dart';
 
 
@@ -21,10 +24,11 @@ class LoginCubit extends Cubit<LoginStates> {
     emit(ChangeVisibilityState());
   }
 
+  bool? isSuper=false;
   void userLogin({
     required String email,
     required String password,
-  }) {
+  }) async {
     emit(LoginLoadingState());
 
     FirebaseAuth.instance
@@ -32,17 +36,36 @@ class LoginCubit extends Cubit<LoginStates> {
       email: email,
       password: password,
     )
-        .then((value) {
+        .then((value) async {
       print(value.user!.email);
       print(value.user!.uid);
       CacheHelper.saveData(key: 'uId', value:value.user!.uid);
-      emit(LoginSuccessState(value.user!.uid));
-    })
+
+//check if user is super admin
+      await FirebaseFirestore.instance.collection('admins').doc(value.user!.uid)
+          .get().then((value){
+        isSuper=value.data()!.containsValue('super admin');
+      })       ;
+      print(isSuper);
+      if(isSuper!) {
+        emit(LoginSuccessState(uId));
+
+      }
+        else
+        {
+          emit(LoginErrorState('this user can\' access these data'));
+
+        }
+
+      })
         .catchError((error)
     {
       emit(LoginErrorState(error.toString()));
     });
   }
+
+
+
 
   IconData suffix = Icons.visibility_outlined;
   bool isPassword = true;
