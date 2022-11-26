@@ -42,6 +42,7 @@ dependencies:
   bloc_provider:
   smooth_page_indicator:
   shared_preferences:
+  restart_app:
 
   #FIREBASE
   firebase_core:

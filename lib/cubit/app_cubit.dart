@@ -80,21 +80,52 @@ class AppCubit extends Cubit<AppState> {
   }
 
 //get all admins data
-  List <AdminModel> admins=[];
+  List <AdminModel> admins1=[];
+  List <AdminModel> admins2=[];
+
+  bool? isSuper=false;
+
   void getUsers() {
-    admins=[];
+    admins1=[];
+    admins2=[];
+
     emit(GetAdminsLoadingState());
     FirebaseFirestore.instance.collection('admins').get()
-        .then((value) {
+        .then((value) async {
       value.docs.forEach((element)
       {
 
+
         if(element.data()['uId']!=uId){
-          admins.add(AdminModel.fromJson(element.data()));
+          admins1.add(AdminModel.fromJson(element.data()));
         }
-        print(admins);
+        print(admins1);
       });
-      emit(GetAdminsSuccessState());
+
+      //check if user is super admin
+
+      admins1.forEach((element) {
+
+        isSuper=true;
+        if(element.type=='admin'){
+          admins2.add(element);
+        }
+
+        });
+
+      print(isSuper);
+      if(!isSuper!) {
+        emit(GetAdminsSuccessState());
+
+      }
+      else
+      {
+        emit(GetAdminsErrorState('this user can\' access these data'));
+
+      }
+
+
+
     })
         .catchError((onError) {
       emit(GetAdminsErrorState(onError.toString()));
@@ -165,10 +196,10 @@ class AppCubit extends Cubit<AppState> {
   }
 
 
-void logOut(context,widget)
+void logOut(context)
 {
-  CacheHelper.removeData(
-      key: 'uId');
+  CacheHelper.removeData(key: 'uId');
+  navigateAndEnd(context,LoginScreen());
 
 }
 

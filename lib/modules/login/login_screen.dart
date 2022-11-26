@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:teledoctor/cubit/app_cubit.dart';
 import 'package:teledoctor/modules/home_screen.dart';
+import 'package:teledoctor/modules/splash_screen.dart';
 import 'package:teledoctor/shared/constants/constants.dart';
 import '../../../shared/component/components.dart';
 import '../../../shared/network/shared_preference.dart';
@@ -39,7 +40,7 @@ class LoginScreen extends StatelessWidget {
               text: 'Login Successfully',
               state: ToastStates.SUCCESS
           );
-          navigateAndEnd(context, HomeScreen());
+          navigateAndEnd(context, SplashScreen());
         }
         if(state is LoginErrorState)
         {

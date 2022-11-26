@@ -4,6 +4,8 @@ import 'package:teledoctor/modules/home_screen.dart';
 import 'package:teledoctor/shared/component/components.dart';
 import 'package:teledoctor/shared/constants/constants.dart';
 
+import 'login/login_screen.dart';
+
 
 
 class SplashScreen extends StatefulWidget {
@@ -19,6 +21,8 @@ class _SplashScreenState extends State<SplashScreen> {
   _startDelay(){
     _timer =Timer(const Duration(seconds:3),_getNext);
   }
+
+
   _getNext(){
     navigateAndEnd(context, HomeScreen());
   }

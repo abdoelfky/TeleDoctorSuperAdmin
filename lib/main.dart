@@ -34,8 +34,7 @@ Future<void> main() async {
   }
 
 
-  runApp(MyApp(onBoarding: onBoarding, startWidget: widget,
-  ));}
+  runApp(MyApp(onBoarding: onBoarding, startWidget: widget,));}
 
 class MyApp extends StatelessWidget {
   final Widget startWidget;

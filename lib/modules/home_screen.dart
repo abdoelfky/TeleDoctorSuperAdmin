@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:restart_app/restart_app.dart';
 import 'package:teledoctor/cubit/app_cubit.dart';
 import 'package:teledoctor/cubit/app_state.dart';
+import 'package:teledoctor/main.dart';
 import 'package:teledoctor/models/admin_model.dart';
+import 'package:teledoctor/modules/splash_screen.dart';
 import 'package:teledoctor/modules/update_user_screen.dart';
 import 'package:teledoctor/shared/component/components.dart';
 
@@ -46,8 +49,8 @@ class HomeScreen extends StatelessWidget {
 
                                   ),
                                   onPressed: () {
-                                    cubit.logOut(context,LoginScreen());
-                                    navigateAndEnd(context,LoginScreen());
+                                    cubit.logOut(context);
+
 
                                   },
                                 ),
@@ -72,10 +75,10 @@ class HomeScreen extends StatelessWidget {
               child: GridView.builder(
 
                 physics: const BouncingScrollPhysics(),
-                itemCount:cubit.admins.length ,
+                itemCount:cubit.admins2.length ,
                 itemBuilder:(context,index)
                 {
-                  return myCard(context,cubit.admins[index]);
+                  return myCard(context,cubit.admins2[index]);
                 },
                 gridDelegate:SliverGridDelegateWithMaxCrossAxisExtent(
                     maxCrossAxisExtent: 300,
