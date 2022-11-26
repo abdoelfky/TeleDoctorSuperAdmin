@@ -1,9 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:teledoctor/modules/home_screen.dart';
 import 'package:teledoctor/shared/component/components.dart';
 import 'package:teledoctor/shared/constants/constants.dart';
-
-import 'onBoarding_screen.dart';
 
 
 
@@ -21,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
     _timer =Timer(const Duration(seconds:3),_getNext);
   }
   _getNext(){
-    navigateAndEnd(context, OnBoardingScreen());
+    navigateAndEnd(context, HomeScreen());
   }
   @override
   void initState() {
@@ -32,12 +31,22 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor:primaryColor,
-      body: const Center(
-        child: Image(
-          color: Colors.white,
-          image: AssetImage(
-            'assets/images/loginLogo.png',
+      body: Center(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 40),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image(
+                color: Colors.white,
+                image: AssetImage(
+                  'images/loginLogo.png',
 
+                ),
+              ),
+              SizedBox(height: MediaQuery.of(context).size.height*.08,),
+              LinearProgressIndicator()
+            ],
           ),
         ),
       ),

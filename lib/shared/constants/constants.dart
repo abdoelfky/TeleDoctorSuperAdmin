@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
 
+String uId='';
+
 Color blue1 = const Color(0xff253d79);
 Color primaryColor = const Color(0xff004f9a);
 Color blue3 = const Color(0xff2267b2);

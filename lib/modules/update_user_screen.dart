@@ -1,11 +1,19 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:teledoctor/cubit/app_cubit.dart';
+import 'package:teledoctor/models/admin_model.dart';
 import '../cubit/app_state.dart';
 import '../shared/component/components.dart';
 import '../shared/constants/constants.dart';
 
+
 class UpdateAdminScreen extends StatelessWidget {
+
+  final AdminModel admin;
+  UpdateAdminScreen({super.key, required this.admin});
+
+
   var adminNameController = TextEditingController();
   var adminIdController = TextEditingController();
   var adminEmailController = TextEditingController();
@@ -15,16 +23,103 @@ class UpdateAdminScreen extends StatelessWidget {
   var hospitalLocationController = TextEditingController();
   var formKey = GlobalKey<FormState>();
 
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    bool inProgress=false;
 
     return BlocConsumer<AppCubit, AppState>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if(state is UpdateAdminDataLoadingState)
+          {
+            inProgress=true;
+          }
+          else {
+            inProgress=false;
+          }
+
+          if(state is UpdateAdminDataSuccessState)
+          {
+            showToast(
+                text: 'Admin Updated Successfully',
+                state: ToastStates.SUCCESS
+            );
+
+          }
+          if(state is UpdateAdminDataErrorState)
+          {
+            showToast(
+                text: '${state.error}',
+                state: ToastStates.ERROR
+            );
+          }
+
+
+        },
         builder: (context, state) {
           var cubit = AppCubit.get(context);
+
+          if(admin!=null&&admin.email!=adminEmailController.text.trim()
+          &&admin.name!=adminNameController.text.trim()
+          &&admin.id!=adminIdController.text.trim()
+          &&admin.password!=adminPasswordController.text.trim()
+          &&admin.hospitalName!=hospitalNameController.text.trim()
+          &&admin.hospitalLocation!=hospitalLocationController.text.trim()
+          &&admin.phone!=adminPhoneController.text.trim()
+
+
+          ) {
+            adminEmailController.text =admin.email!;
+            adminNameController.text =admin.name!;
+            adminIdController.text =admin.id!;
+            adminPasswordController.text =admin.password!;
+            hospitalNameController.text =admin.hospitalLocation!;
+            hospitalLocationController.text =admin.hospitalName!;
+            adminPhoneController.text =admin.phone!;
+
+          }
           return Scaffold(
-            appBar: myAppBar(appBarText: 'Update Admin Data'),
+            appBar: myAppBar(appBarText: 'Update Admin Data',
+            icon: [Padding(
+              padding: const EdgeInsets.only(right: 15.0),
+              child: IconButton(
+                  onPressed: ()
+                  {
+                    showDialog(
+                      context: context,
+                      builder: (_) => AlertDialog(
+                        elevation: 24.0,
+                        title: Text('Are You Sure?',style: TextStyle(color:primaryColor)),
+                        content: Text(
+                            'You will delete this admin',style: TextStyle(color:primaryColor)),
+                        actions: [
+                          CupertinoDialogAction(
+                            child: Container(
+                              child: Text('Delete',
+                                style: TextStyle(color: Colors.red),),
+
+                            ),
+                            onPressed: () {
+                              cubit.deleteAdminData(uId: admin.uId!);
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+
+                            },
+                          ),
+                          CupertinoDialogAction(
+                            child: Text('Cancel',style: TextStyle(color: primaryColor)),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ],
+                      ));
+                  },
+                  icon: Icon(Icons.delete_forever_rounded,color: Colors.red[400],size: 40,)
+              ),
+            )]
+            ),
             body: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Padding(
@@ -179,13 +274,26 @@ class UpdateAdminScreen extends StatelessWidget {
                       const SizedBox(
                         height: 40.0,
                       ),
-                      Center(
+                      inProgress?const CircularProgressIndicator():Center(
                         child: defaultButton(
                             width: size.width * .7,
                             textColor: Colors.white,
                             context: context,
                             string: 'Update',
-                            function: () {},
+                            function: (){
+                              if(formKey.currentState!.validate()){
+                              cubit.updateAdminData(
+
+                                  email: adminEmailController.text.trim(),
+                                  password: adminPasswordController.text.trim(),
+                                  name: adminNameController.text.trim(),
+                                  phone: adminPhoneController.text.trim(),
+                                  id: adminIdController.text.trim(),
+                                  hospitalLocation: hospitalLocationController.text.trim(),
+                                  hospitalName: hospitalNameController.text.trim(),
+                                  uId:admin.uId!
+                              );}
+                            },
                             color: primaryColor),
                       ),
                       const SizedBox(

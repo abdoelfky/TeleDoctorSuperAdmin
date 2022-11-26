@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:teledoctor/cubit/app_cubit.dart';
 import 'package:teledoctor/cubit/app_state.dart';
+import 'package:teledoctor/models/admin_model.dart';
 import 'package:teledoctor/modules/update_user_screen.dart';
 import 'package:teledoctor/shared/component/components.dart';
 
@@ -14,10 +15,13 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size=MediaQuery.of(context).size;
+    bool inProgress=false;
+
     return BlocConsumer<AppCubit,AppState>(
       listener:(context,state){} ,
         builder:(context,state)
         {
+          var cubit=AppCubit.get(context);
           return Scaffold(
             appBar: myAppBar(appBarText: 'Admins'),
             body:Padding(
@@ -27,13 +31,14 @@ class HomeScreen extends StatelessWidget {
               child: GridView.builder(
 
                 physics: const BouncingScrollPhysics(),
-                itemCount:8 ,
+                itemCount:cubit.admins.length ,
                 itemBuilder:(context,index)
-                {return myCard(context);
+                {
+                  return myCard(context,cubit.admins[index]);
                 },
                 gridDelegate:SliverGridDelegateWithMaxCrossAxisExtent(
                     maxCrossAxisExtent: 300,
-                    childAspectRatio: 1,
+                    childAspectRatio: 3/5,
                     crossAxisSpacing: size.width*.03,
                     mainAxisSpacing: size.height*.02
 
@@ -62,47 +67,60 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-Widget myCard(context)=>InkWell(
+Widget myCard(context,AdminModel admin)=>InkWell(
   onTap: (){
-    navigateTo(context,UpdateAdminScreen());
+    navigateTo(context,UpdateAdminScreen(admin: admin));
   },
-  child:   Container(
+  child:   Expanded(
+    child: Container(
 
-    padding:EdgeInsets.all(18) ,
+      padding:EdgeInsets.all(30) ,
 
-    decoration: BoxDecoration(
+      decoration: BoxDecoration(
 
-        color: blue4,
+          color: blue4,
 
-        borderRadius: BorderRadius.circular(15)
+          borderRadius: BorderRadius.circular(15)
+
+      ),
+
+      child: Center(
+
+          child: Column(
+
+            children: [
+
+              CircleAvatar(
+
+                backgroundColor: blue10,
+
+                backgroundImage: const AssetImage('images/user.png'),
+
+                radius: 42,
+
+
+
+              ),
+
+              const SizedBox(height: 15,),
+
+              Text('${admin.name?.toUpperCase()}',
+                style: TextStyle(fontSize: 20,color: Colors.white,
+                    fontWeight: FontWeight.bold),maxLines: 1,
+                  ),
+
+              const SizedBox(height: 5,),
+
+              Text('${admin.hospitalName?.toUpperCase()}',
+                style: TextStyle(fontSize: 17,color: Colors.white,fontWeight: FontWeight.bold),maxLines: 2,
+              )
+
+
+
+            ],
+
+          )),
 
     ),
-
-    child: Center(
-
-        child: Column(
-
-          children: [
-
-            CircleAvatar(
-
-              backgroundColor: blue10,
-
-              backgroundImage: const AssetImage('images/user.png'),
-
-              radius: 42,
-
-
-
-            ),
-
-            const SizedBox(height: 10,),
-
-            const Text('Abdou',style: TextStyle(fontSize: 23,color: Colors.white),),
-
-          ],
-
-        )),
-
   ),
 );

@@ -18,9 +18,50 @@ class AddAdminScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
+    bool inProgress=false;
     return BlocConsumer<AppCubit, AppState>(
-        listener: (context, state) {},
+        listener: (context, state){
+          if(state is AddNewAdminRegisterLoadingState)
+          {
+            inProgress=true;
+          }
+          else {
+            inProgress=false;
+          }
+
+            if(state is AdminCreateUserSuccessState)
+            {
+              adminNameController.text ='';
+              adminIdController.text ='';
+              adminEmailController.text ='';
+              adminPasswordController.text ='';
+              adminPhoneController.text = '';
+              hospitalNameController.text ='';
+              hospitalLocationController.text ='';
+              AppCubit.get(context).getUsers();
+
+              showToast(
+                  text: 'Admin Added Successfully',
+                  state: ToastStates.SUCCESS
+              );
+
+            }
+            if(state is AdminCreateUserErrorState)
+            {
+              showToast(
+                  text: '${state.error}',
+                  state: ToastStates.ERROR
+              );
+            }
+          if(state is AddNewAdminErrorState)
+          {
+            showToast(
+                text: '${state.error}',
+                state: ToastStates.ERROR
+            );
+          }
+
+        },
         builder: (context, state) {
           var cubit = AppCubit.get(context);
           return Scaffold(
@@ -179,13 +220,28 @@ class AddAdminScreen extends StatelessWidget {
                       const SizedBox(
                         height: 40.0,
                       ),
+                      inProgress?const CircularProgressIndicator():
                       Center(
                         child: defaultButton(
                             width: size.width * .7,
                             textColor: Colors.white,
                             context: context,
                             string: 'ADD',
-                            function: () {},
+                            function: ()
+                            {
+                              if (formKey.currentState!.validate()) {
+                              cubit.addNewAdmin(
+                                email: adminEmailController.text.trim(),
+                                password: adminPasswordController.text.trim(),
+                                name: adminNameController.text.trim(),
+                                phone: adminPhoneController.text.trim(),
+                                id: adminIdController.text.trim(),
+                                hospitalLocation: hospitalLocationController.text.trim(),
+                                hospitalName: hospitalNameController.text.trim()
+                            );
+
+                              }
+                            },
                             color: primaryColor),
                       ),
                       const SizedBox(

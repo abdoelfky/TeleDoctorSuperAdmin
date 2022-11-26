@@ -7,7 +7,7 @@ import 'package:teledoctor/shared/component/components.dart';
 import 'package:teledoctor/shared/constants/constants.dart';
 
 import '../models/onBoarding_model.dart';
-import 'login_screen.dart';
+import 'login/login_screen.dart';
 
 
 

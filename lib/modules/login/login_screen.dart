@@ -1,40 +1,75 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:teledoctor/cubit/app_cubit.dart';
-import 'package:teledoctor/cubit/app_state.dart';
 import 'package:teledoctor/modules/home_screen.dart';
 import 'package:teledoctor/shared/constants/constants.dart';
-import '../shared/component/components.dart';
+import '../../../shared/component/components.dart';
+import '../../../shared/network/shared_preference.dart';
+import 'login_cubit/login_cubit.dart';
+import 'login_cubit/login_state.dart';
 
 
 class LoginScreen extends StatelessWidget {
-
-  var emailController = TextEditingController();
-  var passwordConfirmController = TextEditingController();
+  var formKey = GlobalKey<FormState>();
+  final emailController = TextEditingController();
+  final passwordConfirmController = TextEditingController();
 
   LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return BlocConsumer<AppCubit,AppState>(
-      listener:(context,state){},
-        builder:(context,state)
-        {
-          var cubit=AppCubit.get(context);
 
-          return Scaffold(
-            appBar: myAppBar(appBarText: 'Log in'),
-            body: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
+    Size size = MediaQuery.of(context).size;
+    bool inProgress=false;
+
+    return BlocConsumer<LoginCubit,LoginStates>(
+      listener:(context,state){
+        if(state is LoginLoadingState)
+        {
+          inProgress=true;
+        }
+        else {
+          inProgress=false;
+        }
+
+        if(state is LoginSuccessState)
+        {
+          showToast(
+              text: 'Login Successfully',
+              state: ToastStates.SUCCESS
+          );
+          navigateAndEnd(context, HomeScreen());
+        }
+        if(state is LoginErrorState)
+        {
+          showToast(
+              text: '${state.error}',
+              state: ToastStates.ERROR
+          );
+        }
+
+
+      },
+      builder:(context,state)
+      {
+        var cubit=LoginCubit.get(context);
+
+        return Scaffold(
+          appBar: myAppBar(appBarText: 'Log in'),
+          body: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Form(
+                key: formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(
                       height: 50,
                     ),
-                    Center(
+                    const Center(
                       child: Image(
                         image: AssetImage('images/loginLogo.png'),
                       ),
@@ -97,13 +132,19 @@ class LoginScreen extends StatelessWidget {
                     const SizedBox(
                       height: 30,
                     ),
-                    defaultButton(
+
+                    inProgress?Center(child: const CircularProgressIndicator()):defaultButton(
                       color: primaryColor,
                       textColor: Colors.white,
                       width: size.width * .95,
                       function: ()
                       {
-                        navigateAndEnd(context, HomeScreen());
+                        if(formKey.currentState!.validate()) {
+                          LoginCubit.get(context).userLogin(
+                            email: emailController.text.trim(),
+                            password: passwordConfirmController.text.trim(),
+                          );
+                        }
                       },
                       string: 'Sign In',
                     )
@@ -112,14 +153,16 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
             ),
-          );
+          ),
+        );
 
-        } ,
+      } ,
 
     );
   }
-}
 
+
+}
 
 
 
