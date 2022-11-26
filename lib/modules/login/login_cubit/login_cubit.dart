@@ -3,9 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:teledoctor/shared/constants/constants.dart';
-import 'package:teledoctor/shared/network/shared_preference.dart';
 
 import '../../../models/admin_model.dart';
+import '../../../shared/local/shared_preference.dart';
 import 'login_state.dart';
 
 

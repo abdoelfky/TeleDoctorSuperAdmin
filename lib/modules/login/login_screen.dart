@@ -1,12 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:teledoctor/cubit/app_cubit.dart';
-import 'package:teledoctor/modules/home_screen.dart';
 import 'package:teledoctor/modules/splash_screen.dart';
 import 'package:teledoctor/shared/constants/constants.dart';
 import '../../../shared/component/components.dart';
-import '../../../shared/network/shared_preference.dart';
 import 'login_cubit/login_cubit.dart';
 import 'login_cubit/login_state.dart';
 

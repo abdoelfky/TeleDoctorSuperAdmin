@@ -7,7 +7,7 @@ import 'package:teledoctor/modules/login/login_cubit/login_cubit.dart';
 import 'package:teledoctor/modules/login/login_screen.dart';
 import 'package:teledoctor/modules/onBoarding_screen.dart';
 import 'package:teledoctor/shared/constants/constants.dart';
-import 'package:teledoctor/shared/network/shared_preference.dart';
+import 'package:teledoctor/shared/local/shared_preference.dart';
 import 'modules/splash_screen.dart';
 
 Future<void> main() async {
