@@ -134,42 +134,46 @@ Widget myCard(context,AdminModel admin)=>InkWell(
 
       ),
 
-      child: Center(
+      child: Expanded(
+        child: Center(
 
-          child: Column(
+            child: Expanded(
+              child: Column(
 
-            children: [
+                children: [
 
-              CircleAvatar(
+                  CircleAvatar(
 
-                backgroundColor: blue10,
+                    backgroundColor: blue10,
 
-                backgroundImage: const AssetImage('images/user.png'),
+                    backgroundImage: const AssetImage('images/user.png'),
 
-                radius: 42,
+                    radius: 42,
 
 
 
-              ),
-
-              const SizedBox(height: 15,),
-
-              Text('${admin.name?.toUpperCase()}',
-                style: TextStyle(fontSize: 20,color: Colors.white,
-                    fontWeight: FontWeight.bold),maxLines: 1,
                   ),
 
-              const SizedBox(height: 5,),
+                  const SizedBox(height: 15,),
 
-              Text('${admin.hospitalName?.toUpperCase()}',
-                style: TextStyle(fontSize: 17,color: Colors.white,fontWeight: FontWeight.bold),maxLines: 2,
-              )
+                  Text('${admin.name?.toUpperCase()}',
+                    style: TextStyle(fontSize: 20,color: Colors.white,
+                        fontWeight: FontWeight.bold),maxLines: 1,
+                      ),
+
+                  const SizedBox(height: 5,),
+
+                  Text('${admin.hospitalName?.toUpperCase()}',
+                    style: TextStyle(fontSize: 17,color: Colors.white,fontWeight: FontWeight.bold),maxLines: 2,
+                  )
 
 
 
-            ],
+                ],
 
-          )),
+              ),
+            )),
+      ),
 
     ),
   ),
